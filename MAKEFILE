@@ -1,0 +1,26 @@
+CC=gcc
+CFLAGS=-c -Wall -pedantic -std=c99 -g
+all: main #libhclib.so                                                                                                                                                   
+
+main: main.o hclib.o libhclib.so
+        $(CC) -o main main.o hclib.o libhclib.so
+
+main.o: main.c hclib.h
+        $(CC) $(CFLAGS) main.c -o main.o
+
+
+
+
+
+#hclib.o is needed to compile libhclib.so, it tries to compile, but then has to compile hclib.o first 
+                                                                   
+libhclib.so: hclib.o
+        $(CC) -shared -o libhclib.so hclib.o
+
+#hclib.o needs hclib.c hclib.h to compile 
+                                                                                                                               
+hclib.o: hclib.c hclib.h
+        $(CC) $(CFLAGS) -fpic hclib.c -o hclib.o
+
+clean:
+        rm -f *.o *.so
